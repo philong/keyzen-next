@@ -17,6 +17,228 @@ layouts["custom"] = " #=-*_`>![]()1234567890";
 // layouts["norman"] = " ntieosaygjkufrdlw;qbpvmcxz1234567890'\",.!?:;/@$%&#*()_ABCDEFGHIJKLMNOPQRSTUVWXYZ~+-={}|^<>`[]\\";
 // layouts["code-es6"] = " {}',;():.>=</_-|`!?#[]\\+\"@$%&*~^";
 
+const layout_maps = {
+    'colemak': {
+        'KeyQ': "q",
+        'KeyW': 'w',
+        'KeyE': 'f',
+        'KeyR': 'p',
+        'KeyT': 'g',
+        'KeyY': 'j',
+        'KeyU': 'l',
+        'KeyI': 'u',
+        'KeyO': 'y',
+        'KeyP': ';',
+        'KeyA': 'a',
+        'KeyS': 'r',
+        'KeyD': 's',
+        'KeyF': 't',
+        'KeyG': 'd',
+        'KeyH': 'h',
+        'KeyJ': 'n',
+        'KeyK': 'e',
+        'KeyL': 'i',
+        'Semicolon': 'o',
+        'IntlBackslash': '-',
+        'KeyZ': 'z',
+        'KeyX': 'x',
+        'KeyC': 'c',
+        'KeyV': 'v',
+        'KeyB': 'b',
+        'KeyN': 'k',
+        'KeyM': 'm',
+        'shiftLayer': {
+            'KeyP': ':',
+            'Semicolon': 'O',
+            'IntlBackslash': '_',
+        }
+    },
+    'colemak-dh': {
+        'KeyQ': "q",
+        'KeyW': 'w',
+        'KeyE': 'f',
+        'KeyR': 'p',
+        'KeyT': 'b',
+        'KeyY': 'j',
+        'KeyU': 'l',
+        'KeyI': 'u',
+        'KeyO': 'y',
+        'KeyP': ';',
+        'KeyA': 'a',
+        'KeyS': 'r',
+        'KeyD': 's',
+        'KeyF': 't',
+        'KeyG': 'g',
+        'KeyH': 'm',
+        'KeyJ': 'n',
+        'KeyK': 'e',
+        'KeyL': 'i',
+        'Semicolon': 'o',
+        'IntlBackslash': '-',
+        'KeyZ': 'x',
+        'KeyX': 'c',
+        'KeyC': 'd',
+        'KeyV': 'v',
+        'KeyB': 'z',
+        'KeyN': 'k',
+        'KeyM': 'h',
+        'shiftLayer': {
+            'KeyP': ':',
+            'Semicolon': 'O',
+            'IntlBackslash': '_',
+        }
+    },
+    'qwerty': {
+        'Minus': "-",
+        'Equal': "=",
+        'KeyQ': "q",
+        'KeyW': 'w',
+        'KeyE': 'e',
+        'KeyR': 'r',
+        'KeyT': 't',
+        'KeyY': 'y',
+        'KeyU': 'u',
+        'KeyI': 'i',
+        'KeyO': 'o',
+        'KeyP': 'p',
+        'BracketLeft': '[',
+        'BracketRight': ']',
+        'Backslash': '\\',
+        'KeyA': 'a',
+        'KeyS': 's',
+        'KeyD': 'd',
+        'KeyF': 'f',
+        'KeyG': 'g',
+        'KeyH': 'h',
+        'KeyJ': 'j',
+        'KeyK': 'k',
+        'KeyL': 'l',
+        'Semicolon': ';',
+        'Quote': "'",
+        'IntlBackslash': '\\',
+        'KeyZ': 'z',
+        'KeyX': 'x',
+        'KeyC': 'c',
+        'KeyV': 'v',
+        'KeyB': 'b',
+        'KeyN': 'n',
+        'KeyM': 'm',
+        'Comma': ',',
+        'Period': '.',
+        'Slash': '/',
+        'Backquote': '`',
+        'Digit1': '1',
+        'Digit2': '2',
+        'Digit3': '3',
+        'Digit4': '4',
+        'Digit5': '5',
+        'Digit6': '6',
+        'Digit7': '7',
+        'Digit8': '8',
+        'Digit9': '9',
+        'Digit0': '0',
+        'shiftLayer': {
+            'Minus': "_",
+            'Equal': "+",
+            'BracketLeft': '{',
+            'BracketRight': '}',
+            'Semicolon': ':',
+            'Quote': '"',
+            'Backslash': '|',
+            'IntlBackslash': '|',
+            'Comma': '<',
+            'Period': '>',
+            'Slash': '?',
+            'Backquote': '~',
+            'Digit1': '!',
+            'Digit2': '@',
+            'Digit3': '#',
+            'Digit4': '$',
+            'Digit5': '%',
+            'Digit6': '^',
+            'Digit7': '&',
+            'Digit8': '*',
+            'Digit9': '(',
+            'Digit0': ')',
+        }
+    },
+    'azerty': {
+        'Minus': ")",
+        'Equal': "=",
+        'KeyQ': "a",
+        'KeyW': 'z',
+        'KeyE': 'e',
+        'KeyR': 'r',
+        'KeyT': 't',
+        'KeyY': 'y',
+        'KeyU': 'u',
+        'KeyI': 'i',
+        'KeyO': 'o',
+        'KeyP': 'p',
+        'BracketLeft': '^',
+        'BracketRight': '$',
+        'Backslash': '*',
+        'KeyA': 'q',
+        'KeyS': 's',
+        'KeyD': 'd',
+        'KeyF': 'f',
+        'KeyG': 'g',
+        'KeyH': 'h',
+        'KeyJ': 'j',
+        'KeyK': 'k',
+        'KeyL': 'l',
+        'Semicolon': 'm',
+        'Quote': "ù",
+        'IntlBackslash': '<',
+        'KeyZ': 'w',
+        'KeyX': 'x',
+        'KeyC': 'c',
+        'KeyV': 'v',
+        'KeyB': 'b',
+        'KeyN': 'n',
+        'KeyM': ',',
+        'Comma': ';',
+        'Period': ':',
+        'Slash': '!',
+        'Backquote': '²',
+        'Digit1': '&',
+        'Digit2': 'é',
+        'Digit3': '"',
+        'Digit4': "'",
+        'Digit5': '(',
+        'Digit6': '-',
+        'Digit7': 'è',
+        'Digit8': '_',
+        'Digit9': 'ç',
+        'Digit0': 'à',
+        'shiftLayer': {
+            'KeyM': '?',
+            'Minus': "°",
+            'Equal': "+",
+            'BracketLeft': '¨',
+            'BracketRight': '£',
+            'Semicolon': 'M',
+            'Quote': '%',
+            'Backslash': 'µ',
+            'IntlBackslash': '>',
+            'Comma': '.',
+            'Period': '/',
+            'Slash': '§',
+            'Backquote': '³',
+            'Digit1': '1',
+            'Digit2': '2',
+            'Digit3': '3',
+            'Digit4': '4',
+            'Digit5': '5',
+            'Digit6': '6',
+            'Digit7': '7',
+            'Digit8': '8',
+            'Digit9': '9',
+            'Digit0': '0',
+        }
+    },
+};
+
 data.chars = layouts["colemak-dh"];
 data.consecutive = 5;
 data.word_length = 7;
@@ -92,17 +314,34 @@ function set_layout(l) {
     showActiveLayoutKeyboard();
 }
 
+function char_to_key(e) {
+    let key = null;
+    if (data.layout_mapping_enabled) {
+        const layout = get_current_layout();
+        key = map_key(e, layout);
+    }
+    return key || String.fromCharCode(e.which);
+}
+
+function map_key(e, layout) {
+    const map = layout_maps[layout] || {};
+    const fallback_map = layout_maps['qwerty'] || {};
+    const code = e.code;
+    if (e.shiftKey) {
+        return (map.shiftLayer || {})[code] || (fallback_map.shiftLayer || {})[code]
+            || ((map[code] || fallback_map[code]) || '').toUpperCase();
+    }
+    return map[code] || fallback_map[code];
+}
 
 function keyHandler(e) {
     start_stats();
 
-    var key = String.fromCharCode(e.which);
-    if (data.chars.indexOf(key) > -1){
-        e.preventDefault();
+    var key = char_to_key(e);
+    if (data.chars.indexOf(key) < 0) {
+        console.warn(`Key not found: ${key}`);
     }
-    else {
-    	return;
-    }
+    e.preventDefault();
     data.keys_hit += key;
     if(key == data.word[data.word_index]) {
         hits_correct += 1;
@@ -166,6 +405,7 @@ function render() {
     render_level();
     render_word();
     render_level_bar();
+    render_map_layout();
     render_rigor();
     render_stats();
 }
@@ -242,8 +482,33 @@ function render_level() {
 function render_rigor() {
     chars = "<span id='rigor-number' onclick='inc_rigor();'>";
     chars += '' + data.consecutive;
-    chars += '<span>';
-    $('#rigor').html('click to set intensity: ' + chars);
+    chars += '</span>';
+    $('#rigor').html('intensity: ' + chars);
+}
+
+function render_map_layout() {
+    const layout = get_current_layout();
+    if (!layout_maps[layout]) {
+        $('#map-layout').html('');
+        return;
+    }
+
+    let content = 'map layout: ';
+    content += "<span id='map-layout-enabled' onclick='toggle_map_layout();'>";
+    content += data.layout_mapping_enabled ? 'on&nbsp;' : 'off';
+    content += '</span>';
+    $('#map-layout').html(content);
+}
+
+function toggle_map_layout() {
+    const layout = get_current_layout();
+    if (!layout_maps[layout]) return;
+    data.layout_mapping_enabled = !data.layout_mapping_enabled;
+    render_map_layout();
+}
+
+function get_current_layout() {
+    return data.current_layout !== 'custom' ? data.current_layout : 'colemak';
 }
 
 function render_stats() {

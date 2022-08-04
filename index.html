@@ -148,6 +148,16 @@
                 text-decoration: underline;
             }
 
+            #map-layout {
+                font-size: 16px;
+                position: absolute;
+                right: 128px;
+                bottom: 16px;
+                color: #AAA;
+                font-weight: bold;
+                text-align: right;
+            }
+
             #rigor {
                 font-size: 16px;
                 position: absolute;
@@ -168,7 +178,7 @@
                 text-align: right;
             }
             
-            #rigor-number {
+            #map-layout-enabled, #rigor-number {
                 color: #000;
                 cursor: hand;
             }   
@@ -198,6 +208,7 @@
                 .keyboard-layout,
                 #timer-wrapper,
                 #title,
+                #map-layout,
                 #rigor,
                 #stats {
                     display: none !important;
@@ -257,6 +268,9 @@
 
             <div id='title'>
                 <a href="https://github.com/ranelpadon/keyzen-colemak-dh">Keyzen-Colemak-DH</a>
+            </div>
+
+            <div id='map-layout'>
             </div>
 
             <div id='rigor'>
