@@ -1,4 +1,5 @@
 var data = {};
+var audio = {};
 var hits_correct = 0;
 var hits_wrong = 0;
 var start_time = 0;
@@ -248,6 +249,7 @@ data.custom_chars = '';
 CUSTOM_LAYOUT = 'custom';
 
 $(document).ready(function() {
+    load_audio();
     if (localStorage.data != undefined) {
         load();
         if (data.current_layout == CUSTOM_LAYOUT && data.custom_chars) {
@@ -346,13 +348,13 @@ function keyHandler(e) {
     if(key == data.word[data.word_index]) {
         hits_correct += 1;
         data.in_a_row[key] += 1;
-        (new Audio("click.mp3")).play();
+        play_audio_sample("correct");
     }
     else {
         hits_wrong += 1;
         data.in_a_row[data.word[data.word_index]] = 0;
         data.in_a_row[key] = 0;
-        (new Audio("clack.mp3")).play();
+        play_audio_sample("mistake");
         data.word_errors[data.word_index] = true;
     }
     data.word_index += 1;
@@ -383,7 +385,7 @@ function next_word(){
 
 function level_up() {
     if (data.level + 1 <= data.chars.length - 1) {
-        (new Audio('ding.wav')).play();
+        play_audio_sample("level_up");
     }
     l = Math.min(data.level + 1, data.chars.length);
     set_level(l);
@@ -397,6 +399,42 @@ function save() {
 
 function load() {
     data = JSON.parse(localStorage.data);
+}
+
+
+function load_audio() {
+    audio.samples = {};
+    audio.context = new (window.AudioContext || window.webkitAudioContext)();
+    load_audio_sample("correct", "click.mp3");
+    load_audio_sample("mistake", "clack.mp3");
+    load_audio_sample("level_up", "ding.wav");
+}
+
+
+function load_audio_sample(name, url) {
+    if (!audio.samples[name]) {
+        // fetch the .wav file via XMLHttpRequest as jQuery doesn't support 'arraybuffer' dataType
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.responseType = "arraybuffer";
+        request.onload = function () {
+            audio.context.decodeAudioData(request.response).then(function (buffer) {
+                audio.samples[name] = buffer;
+            });
+        };
+        request.send();
+    }
+}
+
+
+function play_audio_sample(name) {
+    if (audio.samples[name]) {
+        var source = audio.context.createBufferSource();
+        source.buffer = audio.samples[name];
+        source.onended
+        source.connect(audio.context.destination);
+        source.start();
+    }
 }
 
 
