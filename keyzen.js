@@ -621,8 +621,8 @@ function render_word() {
 }
 
 
-function generate_word() {
-    word = '';
+function generate_word_random() {
+    let word = '';
     for(var i = 0; i < data.word_length; i++) {
         c = choose(get_training_chars());
         if(c != undefined && c != word[word.length-1]) {
@@ -633,6 +633,99 @@ function generate_word() {
         }
     }
     return word;
+}
+
+
+function generate_word() {
+    let word = '';
+
+    for (var i = 0; i < data.word_length; i++) {
+        let c;
+        if (i == 0) {
+            c = choose(get_training_chars())
+        }
+        else {
+            // make a list of bigrams that could be used, start with the previous letter
+            previous_letter = word[word.length - 1];
+            possible_bigrams = bigrams_starting_with(previous_letter, get_training_chars());
+
+            if (possible_bigrams.length > 0) {
+                c = choose_non_uniform(possible_bigrams)[1];
+            } else {
+                c = choose(get_training_chars());
+            }
+        }
+        if (c != undefined && c != word[word.length - 1]) {
+            word += c;
+        }
+        else {
+            const perms = permutations(get_level_chars());
+            // filter perms to ones which start with previous letter
+            keep = [];
+            for (var j = 0; j < perms.length; j++) {
+                if (perms[j][0] == word[word.length - 1] && perms[j][1] != ' ') {
+                    keep.push(perms[j]);
+                }
+            }
+            if (keep.length > 0) {
+                c = choose_non_uniform(keep)[1];
+            } else {
+                c = choose(get_level_chars());
+            }
+            word += c;
+        }
+    }
+    return word;
+}
+
+function strip_accents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+}
+
+function choose_non_uniform(values) {
+    let sum = 0;
+    for (var i = 0; i < values.length; i++) {
+        sum += bigrams[strip_accents(values[i])] || 0;
+    }
+    normalisation_factor = 1 / sum;
+    cumlative = 0;
+    cutoff = Math.random()
+    for (var i = 0; i < values.length; i++) {
+        normalised = bigrams[values[i]] * normalisation_factor;
+        cumlative += normalised;
+        if (cumlative > cutoff) {
+            return values[i];
+        }
+    }
+    return values[i] || choose(values);
+
+}
+
+function permutations(iterable) {
+    if (iterable.length < 2) { return false; }
+    const perms = [];
+    for (var i = 0; i < iterable.length; i++) {
+        for (var j = 0; j < iterable.length; j++) {
+            c = iterable[i] + iterable[j];
+            d = iterable[j] + iterable[i];
+            if (perms.indexOf(c) == -1) {
+                perms.push(c);
+            }
+            if (perms.indexOf(d) == -1) {
+                perms.push(d);
+            }
+        }
+    }
+    return perms;
+}
+
+function bigrams_starting_with(start_letter, iterable) {
+    if (iterable.length < 2) { return false; }
+    var bigrams = [];
+    for (var i = 0; i < iterable.length; i++) {
+        bigrams.push(start_letter + iterable[i]);
+    }
+    return bigrams;
 }
 
 
