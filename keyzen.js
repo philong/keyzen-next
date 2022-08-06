@@ -18,10 +18,11 @@ layouts["custom"] = "etaonrishdlfcmugypwbvkjxzq";
 // layouts["norman"] = " ntieosaygjkufrdlw;qbpvmcxz1234567890'\",.!?:;/@$%&#*()_ABCDEFGHIJKLMNOPQRSTUVWXYZ~+-={}|^<>`[]\\";
 // layouts["code-es6"] = " {}',;():.>=</_-|`!?#[]\\+\"@$%&*~^";
 
-data.chars = layouts["colemak-dh"];
+const default_layout = 'colemak';
+data.chars = layouts[default_layout];
 data.consecutive = 5;
 data.word_length = 7;
-data.current_layout = "colemak-dh";
+data.current_layout = default_layout;
 data.custom_chars = '';
 
 CUSTOM_LAYOUT = 'custom';
