@@ -318,7 +318,7 @@ function set_layout(l) {
 
 function char_to_key(e) {
     let key = null;
-    if (data.layout_mapping_enabled) {
+    if (data.layout_mapping_enabled && layout_maps[get_current_layout()]) {
         const layout = get_current_layout();
         key = map_key(e, layout);
     }
