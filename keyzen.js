@@ -125,7 +125,7 @@ function rollbackChars(str) {
 
 function keydownHandler(e) {
     if ([e.code, char_to_key(e)].indexOf('Backspace') >= 0 && data.word_index > 0) {
-        --data.word_index;
+        data.word_errors[--data.word_index] = false;
         data.keys_hit = rollbackChars(data.keys_hit);
         play_audio_sample("correct");
         render();
