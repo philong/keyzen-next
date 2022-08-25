@@ -28,6 +28,7 @@ const layout_maps = {
       'KeyB': 'b',
       'KeyN': 'k',
       'KeyM': 'm',
+      'CapsLock': 'Backspace',
       'shiftLayer': {
           'KeyP': ':',
           'Semicolon': 'O',
@@ -63,6 +64,7 @@ const layout_maps = {
       'KeyB': 'z',
       'KeyN': 'k',
       'KeyM': 'h',
+      'CapsLock': 'Backspace',
       'shiftLayer': {
           'KeyP': ':',
           'Semicolon': 'O',

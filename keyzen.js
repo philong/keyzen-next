@@ -40,6 +40,7 @@ $(document).ready(function() {
         set_level(1);
     }
     $(document).keypress(keyHandler);
+    $(document).keydown(keydownHandler);
     $(document).keyup(keyupHandler);
 
     showActiveLayoutKeyboard();
@@ -118,12 +119,25 @@ function map_key(e, layout) {
 
 const keyPresses = {};
 
+function rollbackChars(str) {
+    return str.substring(0, str.length - 1);
+}
+
+function keydownHandler(e) {
+    if ([e.code, char_to_key(e)].indexOf('Backspace') >= 0 && data.word_index > 0) {
+        --data.word_index;
+        data.keys_hit = rollbackChars(data.keys_hit);
+        play_audio_sample("correct");
+        render();
+    }
+}
+
 function keyupHandler(e) {
     keyPresses[e.code] = false;
 }
 
 function keyHandler(e) {
-    if (keyPresses[e.code]) return;
+    if (keyPresses[e.code] || data.word_index >= data.word.length) return;
     keyPresses[e.code] = true;
 
     start_stats();
@@ -312,6 +326,7 @@ function render_level() {
             $customCharsModal.find('textarea').val(customChars);
 
             $(document).off('keypress');
+            $(document).off('keydown');
             $(document).off('keyup');
         });
 
@@ -328,6 +343,7 @@ function render_level() {
             save();
 
             $(document).keypress(keyHandler);
+            $(document).keydown(keydownHandler);
             $(document).keyup(keyupHandler);
         });
     }
