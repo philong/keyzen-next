@@ -118,23 +118,31 @@ function map_key(e, layout) {
 }
 
 const keyPresses = {};
-
-function rollbackChars(str) {
-    return str.substring(0, str.length - 1);
-}
+let nextWordTimeout;
 
 function keydownHandler(e) {
-    if ([e.code, char_to_key(e)].indexOf('Backspace') >= 0 && data.word_index > 0) {
-        data.word_index -= 1;
-        if (data.word_errors[data.word_index]) {
-            hits_wrong -= 1;
-        } else {
-            hits_correct -= 1;
-        }
-        data.word_errors[data.word_index] = false;
-        data.keys_hit = rollbackChars(data.keys_hit);
+    const keys = [e.code, char_to_key(e)];
+    if (keys.indexOf('Backspace') >= 0) {
+        e.preventDefault();
+        cancel_next_word();
         play_audio_sample("correct");
-        render();
+        if (data.word_index > 0) {
+            data.word_index > 0
+            data.word_index -= 1;
+            if (data.word_errors[data.word_index]) {
+                hits_wrong -= 1;
+            } else {
+                hits_correct -= 1;
+            }
+            data.word_errors[data.word_index] = false;
+            data.keys_hit = data.keys_hit.slice(0, -1);
+            render();
+        }
+    } else if (keys.indexOf('Enter') >= 0) {
+        e.preventDefault();
+        cancel_next_word();
+        play_audio_sample("correct");
+        next_word();
     }
 }
 
@@ -167,14 +175,25 @@ function keyHandler(e) {
         data.word_errors[data.word_index] = true;
     }
     data.word_index += 1;
+    cancel_next_word();
     if (data.word_index >= data.word.length) {
-        setTimeout(next_word, 400);
+        nextWordTimeout = setTimeout(function () {
+            nextWordTimeout = null;
+            next_word();
+        }, 400);
     }
 
     update_stats();
 
     render();
     save();
+}
+
+function cancel_next_word() {
+    if (nextWordTimeout) {
+        clearTimeout(nextWordTimeout);
+        nextWordTimeout = null;
+    }
 }
 
 function next_word(){
