@@ -138,11 +138,17 @@ function keydownHandler(e) {
             data.keys_hit = data.keys_hit.slice(0, -1);
             render();
         }
+        return;
     } else if (keys.indexOf('Enter') >= 0) {
         e.preventDefault();
         cancel_next_word();
         play_audio_sample("correct");
         next_word();
+        return;
+    }
+    if (e.key === 'Dead') {
+        keyHandler(e);
+        keyPresses[e.code] = false;
     }
 }
 
