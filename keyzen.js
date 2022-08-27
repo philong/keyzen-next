@@ -373,6 +373,9 @@ function render_level() {
             render_level();
             save();
 
+            $(document).off('keypress');
+            $(document).off('keydown');
+            $(document).off('keyup');
             $(document).keypress(keyHandler);
             $(document).keydown(keydownHandler);
             $(document).keyup(keyupHandler);
