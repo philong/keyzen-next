@@ -60,8 +60,8 @@
                 position: absolute;
                 top: 30%;
                 margin-top: -64px;
-                height:128px;
-                font-size: 128px;
+                height:96px;
+                font-size: 96px;
                 width:100%;
                 padding: 0px;
                 text-align: center;
@@ -73,7 +73,7 @@
             
             .keys-hit {
                 color: #CCC;
-                font-size: 128px;
+                font-size: 96px;
             	text-shadow: none;
             }
             
@@ -128,6 +128,7 @@
             }
 
             #title {
+                display: none;
                 color: #AAA;
                 position: absolute;
                 bottom: 18px;
@@ -203,6 +204,15 @@
                 min-width: 576px;
             }
 
+            #custom-words-container {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                font-weight: bold;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
             @media screen and (max-width: 900px) {
                 #layout,
                 #level-chars,
@@ -213,7 +223,8 @@
                 #title,
                 #map-layout,
                 #rigor,
-                #stats {
+                #stats,
+                #custom-words-container {
                     display: none !important;
                 }
             }
@@ -289,7 +300,7 @@
                         <div class="modal-header">
                         </div>
                         <div class="modal-body">
-                            <p>Put the custom characters here (e.g. specific letters/capitalization, punctuations, or numbers).</p>
+                            <p>Custom characters (e.g. specific letters/capitalization, punctuations, or numbers)</p>
                             <textarea id="custom-chars-modal--text-area" rows="5" cols="75">
                             </textarea>
                         </div>
@@ -300,6 +311,32 @@
                     </div>
                 </div>
             </div>
+
+            <div id="custom-words-container">
+                <a id="edit-custom-words" href="#" data-toggle="modal" data-target="#custom-words-modal">
+                    custom words
+                </a>
+            </div>
+
+            <!-- Modal for custom words -->
+            <div id="custom-words-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        </div>
+                        <div class="modal-body">
+                            <p>Custom words</p>
+                            <textarea id="custom-words-modal--text-area" rows="5" cols="75">
+                            </textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="custom-words-modal--ok-button">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </body>
 </html>

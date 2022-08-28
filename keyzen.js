@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var data = {};
 var audio = {};
 var hits_correct = 0;
@@ -44,6 +46,7 @@ $(document).ready(function() {
     $(document).keyup(keyupHandler);
 
     showActiveLayoutKeyboard();
+    render_custom_words();
 });
 
 
@@ -318,7 +321,7 @@ function render_layout() {
         layouts_html += layout + "</span>";
     }
     layouts_html += "</span>";
-    $("#layout").html('click to set layout: ' + layouts_html);
+    $("#layout").html('layout: ' + layouts_html);
 }
 
 function render_level() {
@@ -344,7 +347,7 @@ function render_level() {
         chars += "</span>";
     }
     chars += "</span>";
-    $("#level-chars").html('click to set level: ' + chars);
+    $("#level-chars").html('level: ' + chars);
 
     if (data.current_layout == CUSTOM_LAYOUT) {
         $('#level-chars').append('<a id="edit-custom-chars" href="#" data-toggle="modal" data-target="#custom-chars-modal"></a>');
@@ -381,6 +384,37 @@ function render_level() {
             $(document).keyup(keyupHandler);
         });
     }
+}
+
+function render_custom_words() {
+    const $editCustomWordsLink = $('#edit-custom-words');
+    $editCustomWordsLink.click(function() {
+        const $modal = $('#custom-words-modal');
+        let customWords = window.data.custom_words;
+        $modal.find('textarea').val((customWords || []).join(' '));
+
+        $(document).off('keypress');
+        $(document).off('keydown');
+        $(document).off('keyup');
+    });
+
+    const $okButton = $('#custom-words-modal--ok-button');
+    $okButton.click(function() {
+        var $modal = $('#custom-words-modal');
+        var submitted = $modal.find('textarea').val();
+        var proccessed = submitted;
+        $modal.modal("hide");
+        window.data.custom_words = proccessed ? proccessed.split(/\s+/) : undefined;
+        next_word();
+        save();
+
+        $(document).off('keypress');
+        $(document).off('keydown');
+        $(document).off('keyup');
+        $(document).keypress(keyHandler);
+        $(document).keydown(keydownHandler);
+        $(document).keyup(keyupHandler);
+    });
 }
 
 function render_rigor() {
@@ -444,8 +478,7 @@ function render_level_bar() {
     }
     m = Math.floor($('#level-chars-wrap').innerWidth() * Math.min(1.0, m / data.consecutive));
     $('#next-level').css({'width': '' + m + 'px'});
-    
-}   
+}
 
 function render_word() {
     var word = "";
@@ -487,7 +520,7 @@ function render_word() {
             keys_hit += data.keys_hit[d];
         }
     }
-    for(var i = data.word_index; i < data.word_length; i++) {
+    for(var i = data.word_index; i < data.word.length; i++) {
         keys_hit += "&nbsp;";
     }
     keys_hit += "</span>";
@@ -509,8 +542,7 @@ function generate_word_random() {
     return word;
 }
 
-
-function generate_word() {
+function generate_word_from_bigrams() {
     let word = '';
 
     for (var i = 0; i < data.word_length; i++) {
@@ -549,10 +581,50 @@ function generate_word() {
             word += c;
         }
     }
-    const word_char_count = new Set(word).size;
-    if (word_char_count > 3) {
-        return word
+}
+
+function generate_word_from_custom() {
+    const trainingChars = get_training_chars();
+    const scores = {};
+    for (let i = 0; i < data.custom_words.length; ++i) {
+        const word = data.custom_words[i];
+        let score = 0;
+        for (let j = 0; j < trainingChars.length; ++j) {
+            if (word.indexOf(trainingChars[j]) >= 0) {
+                score = score + 1;
+            }
+        }
+        scores[word] = score;
     }
+    const words = Object.keys(scores).sort(function(a, b) {return scores[a] - scores[b]});
+
+    let length = 4;
+    for (let i = 0; i < 4; ++i) {
+        const word = choose(words.slice(-length));
+        if (word !== data.word) {
+            return word;
+        }
+        if (length > words.length) {
+            break;
+        }
+        length *= 2;
+    }
+
+    return choose(words);
+}
+
+function generate_word() {
+    if (data.custom_words && data.custom_words.length) {
+        return generate_word_from_custom();
+    }
+
+    let word = generate_word_from_bigrams()
+    const word_char_count = new Set(word).size;
+
+    if (word_char_count > 3) {
+        return word;
+    }
+
     const random_word = generate_word_random();
     const random_word_char_count = new Set(random_word).size;
     return word_char_count < random_word_char_count ? random_word : word;
