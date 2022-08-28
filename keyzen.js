@@ -137,7 +137,6 @@ function keydownHandler(e) {
             } else {
                 hits_correct -= 1;
             }
-            data.word_errors[data.word_index] = false;
             data.keys_hit = data.keys_hit.slice(0, -1);
             render();
         }
@@ -174,6 +173,9 @@ function keyHandler(e) {
     if(key == data.word[data.word_index]) {
         hits_correct += 1;
         data.in_a_row[key] += 1;
+        if (data.word_errors[data.word_index]) {
+            data.word_errors[data.word_index] = 'correctedChar';
+        }
         play_audio_sample("correct");
     }
     else {
@@ -493,8 +495,9 @@ function render_word() {
         else if (i == data.word_index) {
             sclass = "currentChar";
         }
-        else if(data.word_errors[i]) {
-            sclass = "errorChar";
+        else if (data.word_errors[i]) {
+            const errorClass = data.word_errors[i];
+            sclass = typeof errorClass === 'string' ? errorClass : "errorChar";
         }
         else {
             sclass = "goodChar";
