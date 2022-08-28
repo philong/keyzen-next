@@ -402,7 +402,7 @@ function render_custom_words() {
     $okButton.click(function() {
         var $modal = $('#custom-words-modal');
         var submitted = $modal.find('textarea').val();
-        var proccessed = submitted;
+        var proccessed = (submitted || '').trim();
         $modal.modal("hide");
         window.data.custom_words = proccessed ? proccessed.split(/\s+/) : undefined;
         next_word();
