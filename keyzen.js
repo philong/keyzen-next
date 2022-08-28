@@ -359,9 +359,11 @@ function render_level() {
             var customChars = window.data.custom_chars || window.layouts[data.current_layout];
             $customCharsModal.find('textarea').val(customChars);
 
-            $(document).off('keypress');
-            $(document).off('keydown');
-            $(document).off('keyup');
+            unregister_key_listeners();
+        });
+
+        $('#custom-chars-modal').on('hidden.bs.modal', function (e) {
+            register_key_listeners();
         });
 
         $customCharsModalOkButton = $('#custom-chars-modal--ok-button');
@@ -375,13 +377,6 @@ function render_level() {
             window.data.custom_chars = customCharsProccessed;
             render_level();
             save();
-
-            $(document).off('keypress');
-            $(document).off('keydown');
-            $(document).off('keyup');
-            $(document).keypress(keyHandler);
-            $(document).keydown(keydownHandler);
-            $(document).keyup(keyupHandler);
         });
     }
 }
@@ -393,9 +388,11 @@ function render_custom_words() {
         let customWords = window.data.custom_words;
         $modal.find('textarea').val((customWords || []).join(' '));
 
-        $(document).off('keypress');
-        $(document).off('keydown');
-        $(document).off('keyup');
+        unregister_key_listeners();
+    });
+
+    $('#custom-words-modal').on('hidden.bs.modal', function (e) {
+        register_key_listeners();
     });
 
     const $okButton = $('#custom-words-modal--ok-button');
@@ -407,14 +404,20 @@ function render_custom_words() {
         window.data.custom_words = proccessed ? proccessed.split(/\s+/) : undefined;
         next_word();
         save();
-
-        $(document).off('keypress');
-        $(document).off('keydown');
-        $(document).off('keyup');
-        $(document).keypress(keyHandler);
-        $(document).keydown(keydownHandler);
-        $(document).keyup(keyupHandler);
     });
+}
+
+function unregister_key_listeners() {
+    $(document).off('keypress');
+    $(document).off('keydown');
+    $(document).off('keyup');
+}
+
+function register_key_listeners() {
+    unregister_key_listeners();
+    $(document).keypress(keyHandler);
+    $(document).keydown(keydownHandler);
+    $(document).keyup(keyupHandler);
 }
 
 function render_rigor() {
