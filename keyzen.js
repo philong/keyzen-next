@@ -596,8 +596,11 @@ function generate_word_from_custom() {
         const word = data.custom_words[i];
         let score = 0;
         for (let j = 0; j < trainingChars.length; ++j) {
-            if (word.indexOf(trainingChars[j]) >= 0) {
-                score = score + 1;
+            const trainingChar = trainingChars[j];
+            for (let k = 0; k < word.length; ++k) {
+                if (word[k] === trainingChar) {
+                    score = score + 1;
+                }
             }
         }
         scores[word] = score;
