@@ -172,9 +172,10 @@ function keyHandler(e) {
     data.keys_hit += key;
     if(key == data.word[data.word_index]) {
         hits_correct += 1;
-        data.in_a_row[key] += 1;
         if (data.word_errors[data.word_index]) {
             data.word_errors[data.word_index] = 'correctedChar';
+        } else {
+            data.in_a_row[key] += 1;
         }
         play_audio_sample("correct");
     }
@@ -590,17 +591,27 @@ function generate_word_from_bigrams() {
 }
 
 function generate_word_from_custom() {
-    const trainingChars = get_training_chars();
+    let trainingChars = get_training_chars();
+    if (!trainingChars.length) {
+        return choose(data.custom_words);
+    }
+
     const scores = {};
     for (let i = 0; i < data.custom_words.length; ++i) {
         const word = data.custom_words[i];
         let score = 0;
         for (let j = 0; j < trainingChars.length; ++j) {
             const trainingChar = trainingChars[j];
+            let count = 0;
             for (let k = 0; k < word.length; ++k) {
                 if (word[k] === trainingChar) {
-                    score = score + 1;
+                    count += 1;
                 }
+            }
+            if (count) {
+                score += count * 100;
+            } else {
+                score -= 1;
             }
         }
         scores[word] = score;
