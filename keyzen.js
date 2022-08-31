@@ -190,10 +190,14 @@ function keyHandler(e) {
     data.word_index += 1;
     cancel_next_word();
     if (data.word_index >= data.word.length) {
-        nextWordTimeout = setTimeout(function () {
-            nextWordTimeout = null;
+        if (Object.values(data.word_errors).includes(true)) {
+            nextWordTimeout = setTimeout(function () {
+                nextWordTimeout = null;
+                next_word();
+            }, 800);
+        } else {
             next_word();
-        }, 400);
+        }
     }
 
     update_stats();
