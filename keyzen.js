@@ -619,7 +619,7 @@ function generate_word_from_custom() {
     }
     const words = Object.keys(scores).sort(function(a, b) {return scores[a] - scores[b]});
 
-    let length = 4;
+    let length = 8;
     for (let i = 0; i < 4; ++i) {
         const word = choose(words.slice(-length));
         if (word !== data.word) {
@@ -631,7 +631,7 @@ function generate_word_from_custom() {
         length *= 2;
     }
 
-    return choose(words);
+    return choose(data.custom_words);
 }
 
 function generate_word() {
