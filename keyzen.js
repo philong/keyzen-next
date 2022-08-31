@@ -141,7 +141,8 @@ function keydownHandler(e) {
             render();
         }
         return;
-    } else if (keys.indexOf('Enter') >= 0) {
+    } else if (keys.indexOf('Enter') >= 0
+            || keys.indexOf('Space') >= 0 && data.word_index >= data.word.length) {
         e.preventDefault();
         cancel_next_word();
         play_audio_sample("correct");
