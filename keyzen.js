@@ -124,7 +124,7 @@ const keyPresses = {};
 let nextWordTimeout;
 
 function keydownHandler(e) {
-    const keys = [e.code, char_to_key(e)];
+    const keys = [e.key, char_to_key(e)];
     if (keys.indexOf('Backspace') >= 0) {
         e.preventDefault();
         cancel_next_word();
@@ -142,7 +142,7 @@ function keydownHandler(e) {
         }
         return;
     } else if (keys.indexOf('Enter') >= 0
-            || keys.indexOf('Space') >= 0 && data.word_index >= data.word.length) {
+            || keys.indexOf(' ') >= 0 && data.word_index >= data.word.length) {
         e.preventDefault();
         cancel_next_word();
         play_audio_sample("correct");
