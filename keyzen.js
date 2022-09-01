@@ -593,6 +593,7 @@ function generate_word_from_bigrams() {
             word += c;
         }
     }
+    return word;
 }
 
 function generate_word_from_custom() {
