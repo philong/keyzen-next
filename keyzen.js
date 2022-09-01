@@ -605,10 +605,15 @@ function generate_word_from_bigrams() {
     return word;
 }
 
-function generate_word_from_custom() {
+function choose_custom_word() {
     let trainingChars = get_training_chars();
     if (!trainingChars.length) {
-        return choose(data.custom_words);
+        let i = 0;
+        let word;
+        do {
+            word = choose(data.custom_words);
+        } while (i++ < 4 && word === data.word);
+        return word;
     }
 
     const scores = {};
@@ -650,7 +655,7 @@ function generate_word_from_custom() {
 
 function generate_word() {
     if (data.custom_words && data.custom_words.length) {
-        return generate_word_from_custom();
+        return choose_custom_word();
     }
 
     let word = generate_word_from_bigrams()
