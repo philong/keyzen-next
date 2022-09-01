@@ -568,8 +568,12 @@ function generate_word_from_bigrams() {
             possible_bigrams = bigrams_starting_with(previous_letter, get_training_chars());
 
             if (possible_bigrams.length > 0) {
-                c = choose_non_uniform(possible_bigrams)[1];
-            } else {
+                const bigram = choose_non_uniform(possible_bigrams);
+                if (!word.includes(bigram)) {
+                    c = bigram[1];
+                }
+            }
+            if (!c) {
                 c = choose(get_training_chars());
             }
         }
@@ -586,9 +590,14 @@ function generate_word_from_bigrams() {
                 }
             }
             if (keep.length > 0) {
-                c = choose_non_uniform(keep)[1];
-            } else {
-                c = choose(get_level_chars());
+                const bigram = choose_non_uniform(keep);
+                if (!word.includes(bigram)) {
+                    c = bigram[1];
+                }
+            }
+            const lastChar = word.slice(-1);
+            if (!c || c === lastChar) {
+                c = choose(get_level_chars().filter(c => c !== lastChar));
             }
             word += c;
         }
